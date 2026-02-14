@@ -1,88 +1,166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Awesome Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+        .bg-gradient-blue-purple {
+            background-image: linear-gradient(to right top, #6366f1, #8b5cf6, #a855f7, #c155f9, #d655fa);
+        }
+        .text-gradient-blue-purple {
+            background-image: linear-gradient(to right, #3b82f6, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .bg-gradient-blue-purple {
+            background-image: linear-gradient(to right top, #4f46e5, #7c3aed, #9a20b8, #b91d7c, #d91642);
+        }
+        .dark .text-gradient-blue-purple {
+            background-image: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-white">
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-50 transition-colors duration-300">
 
-    <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
         <div class="flex justify-between items-center p-6 max-w-6xl mx-auto">
-            <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">CreativeDev.</h1>
-            <ul class="flex gap-6 text-gray-400 font-medium">
-                <li><a href="#home" class="hover:text-white transition">Home</a></li>
-                <li><a href="#work" class="hover:text-white transition">Work</a></li>
-                <li><a href="#contact" class="hover:text-white transition">Contact</a></li>
+            <h1 class="text-2xl font-bold text-gradient-blue-purple">creativedev.</h1>
+            <ul class="flex gap-6 text-gray-600 dark:text-gray-400 font-medium">
+                <li><a href="#home" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Home</a></li>
+                <li><a href="#work" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Work</a></li>
+                <li><a href="#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a></li>
             </ul>
+            <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <i data-lucide="sun" class="w-5 h-5 text-gray-600 dark:text-gray-400 dark:hidden"></i>
+                <i data-lucide="moon" class="w-5 h-5 text-gray-600 dark:text-gray-400 hidden dark:block"></i>
+            </button>
         </div>
     </nav>
 
-    <header id="home" class="min-h-[80vh] flex flex-col justify-center items-center text-center px-4">
-        <h2 class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight">
-            Membangun Pengalaman <br> <span class="text-blue-500 underline decoration-indigo-500">Digital Keren.</span>
+    <header id="home" class="min-h-[80vh] flex flex-col justify-center items-center text-center px-4 py-20">
+        <h2 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+            Membangun Pengalaman <br> <span class="text-blue-600 dark:text-blue-400 underline decoration-indigo-500">Digital Keren.</span>
         </h2>
-        <p class="text-gray-400 text-lg max-w-2xl mb-8">
-            Halo, saya <span class="text-white font-semibold">[Nama Kamu]</span>. Seorang Developer yang hobi ngulik kode, desain minimalis, dan ngikutin tren konten terbaru.
+        <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mb-10">
+            Halo, saya <span class="text-gray-900 dark:text-white font-semibold">[Nama Kamu]</span>. Seorang developer yang hobi ngulik kode, desain minimalis, dan ngikutin tren konten terbaru.
         </p>
         <div class="flex gap-4">
-            <a href="#work" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-lg shadow-blue-500/20">Lihat Project</a>
-            <a href="https://wa.me/6281234567890" target="_blank" class="border border-slate-700 hover:bg-slate-800 px-8 py-3 rounded-xl font-semibold transition">Chat Me</a>
+            <a href="#work" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-lg shadow-blue-500/30">Lihat Project</a>
+            <a href="https://wa.me/6281234567890" target="_blank" class="border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200 px-8 py-3 rounded-xl font-semibold transition">Chat Me</a>
         </div>
     </header>
 
     <section id="work" class="max-w-6xl mx-auto py-20 px-6">
-        <h3 class="text-3xl font-bold mb-10 inline-block border-b-4 border-blue-500 pb-2">Selected Work</h3>
-        <div class="grid md:grid-cols-2 gap-8">
-            <div class="group bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-blue-500 transition duration-300">
-                <div class="h-52 bg-gradient-to-br from-purple-600 to-blue-500 group-hover:scale-105 transition duration-500"></div>
-                <div class="p-6">
-                    <h4 class="text-xl font-bold mb-2">E-Commerce App</h4>
-                    <p class="text-gray-400 text-sm">Fullstack Development with React & Tailwind</p>
+        <div class="flex items-center gap-4 mb-12">
+            <h3 class="text-3xl font-bold border-b-4 border-blue-500 pb-2">Selected Work</h3>
+            <div class="h-[2px] flex-grow bg-gray-200 dark:bg-gray-800"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-10">
+            <div class="group relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl dark:shadow-none border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600 transition-all duration-500 hover:-translate-y-2">
+                <div class="h-64 bg-gradient-blue-purple relative overflow-hidden flex items-center justify-center">
+                    <i data-lucide="shopping-cart" class="w-24 h-24 text-white opacity-20 group-hover:opacity-40 transition-opacity"></i>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="text-2xl font-bold text-gray-900 dark:text-gray-50">E-Commerce App</h4>
+                        <a href="#" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-200 transition"><i data-lucide="external-link" class="w-6 h-6"></i></a>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">Membangun platform belanja online responsif dengan fitur payment gateway terintegrasi.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">React</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">Node.js</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">Tailwind CSS</span>
+                    </div>
                 </div>
             </div>
-            <div class="group bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-blue-500 transition duration-300">
-                <div class="h-52 bg-gradient-to-br from-emerald-500 to-teal-400 group-hover:scale-105 transition duration-500"></div>
-                <div class="p-6">
-                    <h4 class="text-xl font-bold mb-2">UI Dashboard Design</h4>
-                    <p class="text-gray-400 text-sm">Design system & Prototyping</p>
+            
+            <div class="group relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl dark:shadow-none border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600 transition-all duration-500 hover:-translate-y-2">
+                <div class="h-64 bg-gradient-to-br from-emerald-500 to-teal-400 dark:from-emerald-700 dark:to-teal-600 relative overflow-hidden flex items-center justify-center">
+                    <i data-lucide="layout-dashboard" class="w-24 h-24 text-white opacity-20 group-hover:opacity-40 transition-opacity"></i>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="text-2xl font-bold text-gray-900 dark:text-gray-50">UI Dashboard Design</h4>
+                        <a href="#" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-200 transition"><i data-lucide="external-link" class="w-6 h-6"></i></a>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">Merancang sistem desain dashboard yang intuitif dan mudah digunakan.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">Figma</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">UI/UX</span>
+                        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">Prototyping</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="contact" class="bg-slate-950 py-20 text-center border-t border-slate-800">
-        <h3 class="text-3xl font-bold mb-2 uppercase tracking-widest">Connect With Me</h3>
-        <p class="text-gray-500 mb-10">Follow perjalananku di media sosial</p>
+    <footer id="contact" class="bg-gray-100 dark:bg-gray-950 py-20 text-center border-t border-gray-200 dark:border-gray-800">
+        <h3 class="text-3xl font-bold mb-2 uppercase tracking-widest text-gray-800 dark:text-gray-100">Connect With Me</h3>
+        <p class="text-gray-500 dark:text-gray-400 mb-10">Follow perjalananku di media sosial</p>
         
         <div class="flex justify-center gap-8 mb-10">
-            <a href="https://tiktok.com/@USER_TIKTOK" target="_blank" class="flex flex-col items-center gap-2 group">
-                <div class="p-4 bg-slate-800 rounded-full group-hover:bg-white group-hover:text-black transition duration-300">
-                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.31-.75.42-1.24 1.25-1.33 2.1-.1.7.1 1.48.59 2 .52.56 1.34.82 2.08.75 1.05-.05 2-.85 2.2-1.88.07-.46.04-.93.04-1.4V.02z"/></svg>
+            <a href="https://tiktok.com/user_tiktok" target="_blank" class="flex flex-col items-center gap-2 group">
+                <div class="p-4 bg-gray-200 dark:bg-gray-800 rounded-full group-hover:bg-blue-500 group-hover:text-white transition duration-300">
+                    <i data-lucide="tiktok" class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-white"></i>
                 </div>
-                <span class="text-xs text-gray-400 group-hover:text-white transition">TikTok</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition">TikTok</span>
             </a>
 
-            <a href="https://instagram.com/USER_IG" target="_blank" class="flex flex-col items-center gap-2 group">
-                <div class="p-4 bg-slate-800 rounded-full group-hover:bg-pink-600 transition duration-300 text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            <a href="https://instagram.com/user_ig" target="_blank" class="flex flex-col items-center gap-2 group">
+                <div class="p-4 bg-gray-200 dark:bg-gray-800 rounded-full group-hover:bg-pink-500 group-hover:text-white transition duration-300">
+                    <i data-lucide="instagram" class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-white"></i>
                 </div>
-                <span class="text-xs text-gray-400 group-hover:text-white transition">Instagram</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 group-hover:text-pink-500 transition">Instagram</span>
+            </a>
+
+             <a href="https://github.com/yourusername" target="_blank" class="flex flex-col items-center gap-2 group">
+                <div class="p-4 bg-gray-200 dark:bg-gray-800 rounded-full group-hover:bg-gray-700 group-hover:text-white transition duration-300">
+                    <i data-lucide="github" class="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:text-white"></i>
+                </div>
+                <span class="text-xs text-gray-500 dark:text-gray-400 group-hover:text-gray-700 transition">GitHub</span>
             </a>
         </div>
         
-        <p class="text-slate-600 text-sm">© 2026 Your Name. Build with 🔥 and Coffee.</p>
+        <p class="text-gray-400 dark:text-gray-600 text-sm">© 2026 [Nama Kamu]. Build with 🔥 and coffee.</p>
     </footer>
 
-    <a href="https://wa.me/6281234567890?text=Halo%20bro,%20mau%20tanya-tanya%20dong!" target="_blank" class="fixed bottom-8 right-8 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-[99]">
-        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412 0 6.556-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.669l.403.239c1.545.919 3.338 1.403 5.171 1.404 5.485 0 9.948-4.463 9.948-9.948 0-2.659-1.036-5.158-2.915-7.038-1.879-1.878-4.378-2.913-7.033-2.913-5.485 0-9.948 4.463-9.948 9.948 0 2.12.675 4.189 1.947 5.923l.267.365-1.008 3.676 3.766-.988z"/></svg>
+    <a href="https://wa.me/6281234567890?text=halo%20bro,%20mau%20tanya-tanya%20dong!" target="_blank" class="fixed bottom-8 right-8 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-[99]">
+        <i data-lucide="message-square" class="w-8 h-8 fill-current"></i>
     </a>
 
+    <script>
+        lucide.createIcons();
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            body.classList.add('dark');
+        } else {
+            body.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark')) {
+                body.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                body.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
+    </script>
 </body>
 </html>
