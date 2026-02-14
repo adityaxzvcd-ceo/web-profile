@@ -1,115 +1,88 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio Profile</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* Background gradient animasi */
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(-45deg, #1abc9c, #3498db, #9b59b6, #e67e22);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-    }
-
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    /* Profile Card */
-    .profile-card {
-      background: rgba(255,255,255,0.95);
-      border-radius: 20px;
-      padding: 40px 30px;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      transform: translateY(-50px);
-      opacity: 0;
-      animation: fadeIn 1s forwards;
-    }
-
-    @keyframes fadeIn {
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .profile-card img {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #3498db;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-
-    .profile-card img:hover {
-      transform: scale(1.05);
-      border-color: #e67e22;
-    }
-
-    h1 {
-      margin: 20px 0 10px;
-      font-size: 28px;
-      color: #333;
-    }
-
-    p.bio {
-      color: #555;
-      font-size: 16px;
-      margin: 10px 0 20px;
-      line-height: 1.5;
-    }
-
-    .contact a {
-      text-decoration: none;
-      color: #fff;
-      background: #3498db;
-      padding: 12px 25px;
-      border-radius: 8px;
-      margin: 0 7px;
-      display: inline-block;
-      transition: all 0.3s ease;
-    }
-
-    .contact a:hover {
-      background: #e67e22;
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    @media(max-width: 450px) {
-      .profile-card {
-        padding: 30px 20px;
-      }
-      h1 { font-size: 24px; }
-      .contact a { padding: 10px 15px; margin: 5px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+    </style>
 </head>
-<body>
-  <div class="profile-card">
-    <img src="https://via.placeholder.com/160" alt="Foto Profil">
-    <h1>Nama Kamu</h1>
-    <p class="bio">Halo! Aku seorang developer muda yang suka membuat website keren, belajar hal baru, dan berbagi ilmu.</p>
-    <div class="contact">
-      <a href="mailto:email@domain.com">Email</a>
-      <a href="https://github.com/username" target="_blank">GitHub</a>
-      <a href="https://instagram.com/username" target="_blank">Instagram</a>
-    </div>
-  </div>
+<body class="bg-slate-900 text-white">
+
+    <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="flex justify-between items-center p-6 max-w-6xl mx-auto">
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">CreativeDev.</h1>
+            <ul class="flex gap-6 text-gray-400 font-medium">
+                <li><a href="#home" class="hover:text-white transition">Home</a></li>
+                <li><a href="#work" class="hover:text-white transition">Work</a></li>
+                <li><a href="#contact" class="hover:text-white transition">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home" class="min-h-[80vh] flex flex-col justify-center items-center text-center px-4">
+        <h2 class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight">
+            Membangun Pengalaman <br> <span class="text-blue-500 underline decoration-indigo-500">Digital Keren.</span>
+        </h2>
+        <p class="text-gray-400 text-lg max-w-2xl mb-8">
+            Halo, saya <span class="text-white font-semibold">[Nama Kamu]</span>. Seorang Developer yang hobi ngulik kode, desain minimalis, dan ngikutin tren konten terbaru.
+        </p>
+        <div class="flex gap-4">
+            <a href="#work" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-lg shadow-blue-500/20">Lihat Project</a>
+            <a href="https://wa.me/6281234567890" target="_blank" class="border border-slate-700 hover:bg-slate-800 px-8 py-3 rounded-xl font-semibold transition">Chat Me</a>
+        </div>
+    </header>
+
+    <section id="work" class="max-w-6xl mx-auto py-20 px-6">
+        <h3 class="text-3xl font-bold mb-10 inline-block border-b-4 border-blue-500 pb-2">Selected Work</h3>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="group bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-blue-500 transition duration-300">
+                <div class="h-52 bg-gradient-to-br from-purple-600 to-blue-500 group-hover:scale-105 transition duration-500"></div>
+                <div class="p-6">
+                    <h4 class="text-xl font-bold mb-2">E-Commerce App</h4>
+                    <p class="text-gray-400 text-sm">Fullstack Development with React & Tailwind</p>
+                </div>
+            </div>
+            <div class="group bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-blue-500 transition duration-300">
+                <div class="h-52 bg-gradient-to-br from-emerald-500 to-teal-400 group-hover:scale-105 transition duration-500"></div>
+                <div class="p-6">
+                    <h4 class="text-xl font-bold mb-2">UI Dashboard Design</h4>
+                    <p class="text-gray-400 text-sm">Design system & Prototyping</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-slate-950 py-20 text-center border-t border-slate-800">
+        <h3 class="text-3xl font-bold mb-2 uppercase tracking-widest">Connect With Me</h3>
+        <p class="text-gray-500 mb-10">Follow perjalananku di media sosial</p>
+        
+        <div class="flex justify-center gap-8 mb-10">
+            <a href="https://tiktok.com/@USER_TIKTOK" target="_blank" class="flex flex-col items-center gap-2 group">
+                <div class="p-4 bg-slate-800 rounded-full group-hover:bg-white group-hover:text-black transition duration-300">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.31-.75.42-1.24 1.25-1.33 2.1-.1.7.1 1.48.59 2 .52.56 1.34.82 2.08.75 1.05-.05 2-.85 2.2-1.88.07-.46.04-.93.04-1.4V.02z"/></svg>
+                </div>
+                <span class="text-xs text-gray-400 group-hover:text-white transition">TikTok</span>
+            </a>
+
+            <a href="https://instagram.com/USER_IG" target="_blank" class="flex flex-col items-center gap-2 group">
+                <div class="p-4 bg-slate-800 rounded-full group-hover:bg-pink-600 transition duration-300 text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </div>
+                <span class="text-xs text-gray-400 group-hover:text-white transition">Instagram</span>
+            </a>
+        </div>
+        
+        <p class="text-slate-600 text-sm">© 2026 Your Name. Build with 🔥 and Coffee.</p>
+    </footer>
+
+    <a href="https://wa.me/6281234567890?text=Halo%20bro,%20mau%20tanya-tanya%20dong!" target="_blank" class="fixed bottom-8 right-8 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-[99]">
+        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412 0 6.556-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.669l.403.239c1.545.919 3.338 1.403 5.171 1.404 5.485 0 9.948-4.463 9.948-9.948 0-2.659-1.036-5.158-2.915-7.038-1.879-1.878-4.378-2.913-7.033-2.913-5.485 0-9.948 4.463-9.948 9.948 0 2.12.675 4.189 1.947 5.923l.267.365-1.008 3.676 3.766-.988z"/></svg>
+    </a>
+
 </body>
 </html>
