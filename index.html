@@ -2,254 +2,210 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Virtual iPhone iOS Style</title>
+<title>Game Tani PRO</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, BlinkMacSystemFont, sans-serif; }
-
 body{
-  background:#111;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-
-.iphone{
-  width:340px;
-  height:700px;
-  background:black;
-  border-radius:50px;
-  padding:14px;
-  box-shadow:0 0 40px rgba(0,0,0,0.8);
-  position:relative;
-}
-
-.screen{
-  width:100%;
-  height:100%;
-  border-radius:40px;
+  margin:0;
   overflow:hidden;
-  position:relative;
-  background:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover;
+  background:#87CEEB;
+  font-family:sans-serif;
 }
+canvas{ display:block; }
 
-.status-bar{
+#ui{
   position:absolute;
-  top:8px;
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  padding:0 20px;
-  font-size:14px;
-  color:white;
-  z-index:10;
-}
-
-.lock-screen{
-  position:absolute;
-  width:100%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  color:white;
-  backdrop-filter:blur(10px);
-  transition:0.4s;
-}
-
-.lock-screen h1{
-  font-size:60px;
-}
-
-.home-screen{
-  position:absolute;
-  width:100%;
-  height:100%;
-  padding:70px 20px 90px;
-  display:none;
-  flex-wrap:wrap;
-  gap:20px;
-  justify-content:center;
-  transition:0.3s;
-}
-
-.app-icon{
-  width:70px;
-  height:70px;
-  border-radius:20px;
+  top:15px;
+  left:15px;
   background:rgba(255,255,255,0.85);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:12px;
-  text-align:center;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.app-icon:active{
-  transform:scale(0.9);
-}
-
-.dock{
-  position:absolute;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  width:90%;
-  height:80px;
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(15px);
-  border-radius:30px;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-}
-
-.app-screen{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:white;
-  top:100%;
-  transition:0.3s ease;
-  border-radius:40px;
-  padding:60px 20px;
-  overflow:auto;
-}
-
-.home-bar{
-  position:absolute;
-  bottom:8px;
-  left:50%;
-  transform:translateX(-50%);
-  width:120px;
-  height:5px;
-  background:#ccc;
-  border-radius:10px;
-  z-index:20;
-}
-
-.control-center{
-  position:absolute;
-  top:-100%;
-  right:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(20px);
-  color:white;
-  padding:80px 20px;
-  transition:0.4s;
-}
-
-.control-box{
-  background:rgba(255,255,255,0.2);
-  padding:20px;
-  border-radius:20px;
-  margin-bottom:15px;
+  padding:12px 18px;
+  border-radius:15px;
+  backdrop-filter:blur(5px);
+  font-weight:bold;
 }
 </style>
 </head>
 <body>
 
-<div class="iphone">
-<div class="screen" id="screen">
-
-<div class="status-bar">
-<span id="statusTime"></span>
-<span>🔋100%</span>
-</div>
-
-<div class="lock-screen" id="lockScreen">
-<h1 id="time"></h1>
-<p id="date"></p>
-<p style="margin-top:20px;">Swipe Up</p>
-</div>
-
-<div class="home-screen" id="homeScreen">
-<div class="app-icon" onclick="openApp('Phone')">📞<br>Phone</div>
-<div class="app-icon" onclick="openApp('Safari')">🌐<br>Safari</div>
-<div class="app-icon" onclick="openApp('Music')">🎵<br>Music</div>
-<div class="app-icon" onclick="openApp('Settings')">⚙️<br>Settings</div>
-
-<div class="dock">
-<div class="app-icon" onclick="openApp('Phone')">📞</div>
-<div class="app-icon" onclick="openApp('Safari')">🌐</div>
-<div class="app-icon" onclick="openApp('Music')">🎵</div>
-</div>
-</div>
-
-<div class="app-screen" id="appScreen">
-<h2 id="appTitle"></h2>
-<div id="appContent"></div>
-</div>
-
-<div class="control-center" id="controlCenter">
-<div class="control-box">✈️ Airplane Mode</div>
-<div class="control-box">📶 WiFi</div>
-<div class="control-box">🔵 Bluetooth</div>
-</div>
-
-<div class="home-bar" id="homeBar"></div>
-
-</div>
-</div>
+<div id="ui">💰 Uang: <span id="money">0</span></div>
+<canvas id="game"></canvas>
 
 <script>
-const lockScreen = document.getElementById("lockScreen");
-const homeScreen = document.getElementById("homeScreen");
-const appScreen = document.getElementById("appScreen");
-const appTitle = document.getElementById("appTitle");
-const appContent = document.getElementById("appContent");
-const controlCenter = document.getElementById("controlCenter");
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-function updateTime(){
-  const now=new Date();
-  document.getElementById("time").innerText=
-  now.getHours().toString().padStart(2,'0')+":"+
-  now.getMinutes().toString().padStart(2,'0');
+let money=0;
+const moneyUI=document.getElementById("money");
 
-  document.getElementById("statusTime").innerText=
-  now.getHours()+":"+now.getMinutes().toString().padStart(2,'0');
+const worldSize=3000;
+const tileSize=100;
+const tiles=[];
+const particles=[];
 
-  document.getElementById("date").innerText=
-  now.toDateString();
-}
-setInterval(updateTime,1000);
-updateTime();
-
-let startY=0;
-lockScreen.addEventListener("touchstart",e=>startY=e.touches[0].clientY);
-lockScreen.addEventListener("touchend",e=>{
-  if(startY - e.changedTouches[0].clientY > 50){
-    lockScreen.style.top="-100%";
-    homeScreen.style.display="flex";
-  }
-});
-
-function openApp(name){
-  appTitle.innerText=name;
-  appScreen.style.top="0";
-  if(name==="Safari"){
-    appContent.innerHTML="<iframe src='https://example.com' width='100%' height='500'></iframe>";
-  }else{
-    appContent.innerHTML="<p>Welcome to "+name+"</p>";
+for(let x=0;x<worldSize;x+=tileSize){
+  for(let y=0;y<worldSize;y+=tileSize){
+    tiles.push({x,y,state:0,grow:0});
   }
 }
 
-document.getElementById("homeBar").onclick=()=>{
-  appScreen.style.top="100%";
+let player={
+  x:1500,y:1500,
+  size:30,
+  vx:0,vy:0,
+  speed:0.6
 };
 
-document.getElementById("screen").addEventListener("dblclick",()=>{
-  controlCenter.style.top="0";
+let camera={x:0,y:0};
+
+let keys={};
+document.addEventListener("keydown",e=>keys[e.key]=true);
+document.addEventListener("keyup",e=>keys[e.key]=false);
+
+canvas.addEventListener("click",e=>{
+  const mx=e.clientX+camera.x;
+  const my=e.clientY+camera.y;
+
+  tiles.forEach(t=>{
+    if(mx>t.x && mx<t.x+tileSize &&
+       my>t.y && my<t.y+tileSize){
+
+      if(t.state===0){
+        t.state=1;
+        t.grow=0;
+      }
+      else if(t.state===3){
+        t.state=0;
+        money+=20;
+        moneyUI.innerText=money;
+
+        // Partikel panen
+        for(let i=0;i<15;i++){
+          particles.push({
+            x:t.x+50,
+            y:t.y+50,
+            vx:(Math.random()-0.5)*4,
+            vy:(Math.random()-1)*4,
+            life:60
+          });
+        }
+      }
+    }
+  });
 });
 
-controlCenter.onclick=()=>{
-  controlCenter.style.top="-100%";
-};
+function update(){
+
+  // Smooth movement (inertia)
+  if(keys["w"]||keys["ArrowUp"]) player.vy-=player.speed;
+  if(keys["s"]||keys["ArrowDown"]) player.vy+=player.speed;
+  if(keys["a"]||keys["ArrowLeft"]) player.vx-=player.speed;
+  if(keys["d"]||keys["ArrowRight"]) player.vx+=player.speed;
+
+  player.vx*=0.9;
+  player.vy*=0.9;
+
+  player.x+=player.vx;
+  player.y+=player.vy;
+
+  // Camera follow smooth
+  camera.x+=((player.x-canvas.width/2)-camera.x)*0.1;
+  camera.y+=((player.y-canvas.height/2)-camera.y)*0.1;
+
+  // Grow plants
+  tiles.forEach(t=>{
+    if(t.state>0 && t.state<3){
+      t.grow+=0.02;
+      if(t.grow>5) t.state=2;
+      if(t.grow>10) t.state=3;
+    }
+  });
+
+  // Update particles
+  particles.forEach(p=>{
+    p.x+=p.vx;
+    p.y+=p.vy;
+    p.vy+=0.1;
+    p.life--;
+  });
+}
+
+function drawWorld(){
+  ctx.fillStyle="#3cb043";
+  ctx.fillRect(0,0,worldSize,worldSize);
+
+  tiles.forEach(t=>{
+    ctx.fillStyle="#8B5A2B";
+    ctx.fillRect(t.x,t.y,tileSize-2,tileSize-2);
+
+    if(t.state>0){
+      ctx.save();
+      ctx.translate(t.x+50,t.y+70);
+
+      let scale=Math.min(t.grow/10,1);
+      ctx.scale(scale,scale);
+
+      // Shadow
+      ctx.fillStyle="rgba(0,0,0,0.2)";
+      ctx.beginPath();
+      ctx.ellipse(0,15,20,8,0,0,Math.PI*2);
+      ctx.fill();
+
+      if(t.state===1) ctx.fillStyle="#66cc33";
+      if(t.state===2) ctx.fillStyle="#33aa22";
+      if(t.state===3) ctx.fillStyle="gold";
+
+      ctx.fillRect(-10,-40,20,40);
+      ctx.restore();
+    }
+  });
+}
+
+function drawPlayer(){
+  ctx.save();
+  ctx.translate(player.x,player.y);
+
+  // Shadow
+  ctx.fillStyle="rgba(0,0,0,0.3)";
+  ctx.beginPath();
+  ctx.ellipse(0,20,25,10,0,0,Math.PI*2);
+  ctx.fill();
+
+  // Body
+  ctx.fillStyle="#444";
+  ctx.beginPath();
+  ctx.arc(0,0,player.size,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawParticles(){
+  particles.forEach(p=>{
+    ctx.fillStyle="gold";
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,4,0,Math.PI*2);
+    ctx.fill();
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  ctx.save();
+  ctx.translate(-camera.x,-camera.y);
+
+  drawWorld();
+  drawPlayer();
+  drawParticles();
+
+  ctx.restore();
+
+  update();
+  requestAnimationFrame(animate);
+}
+
+animate();
 </script>
 
 </body>
