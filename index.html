@@ -1,105 +1,256 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone Virtual Mockup</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { background-color: #0f172a; display: flex; justify-center; align-items: center; min-height: 100vh; margin: 0; }
-        .custom-scrollbar::-webkit-scrollbar { width: 0px; }
-    </style>
+<meta charset="UTF-8">
+<title>Virtual iPhone iOS Style</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, BlinkMacSystemFont, sans-serif; }
+
+body{
+  background:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.iphone{
+  width:340px;
+  height:700px;
+  background:black;
+  border-radius:50px;
+  padding:14px;
+  box-shadow:0 0 40px rgba(0,0,0,0.8);
+  position:relative;
+}
+
+.screen{
+  width:100%;
+  height:100%;
+  border-radius:40px;
+  overflow:hidden;
+  position:relative;
+  background:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover;
+}
+
+.status-bar{
+  position:absolute;
+  top:8px;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:0 20px;
+  font-size:14px;
+  color:white;
+  z-index:10;
+}
+
+.lock-screen{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  color:white;
+  backdrop-filter:blur(10px);
+  transition:0.4s;
+}
+
+.lock-screen h1{
+  font-size:60px;
+}
+
+.home-screen{
+  position:absolute;
+  width:100%;
+  height:100%;
+  padding:70px 20px 90px;
+  display:none;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+  transition:0.3s;
+}
+
+.app-icon{
+  width:70px;
+  height:70px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.85);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:12px;
+  text-align:center;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.app-icon:active{
+  transform:scale(0.9);
+}
+
+.dock{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  height:80px;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(15px);
+  border-radius:30px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+
+.app-screen{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:white;
+  top:100%;
+  transition:0.3s ease;
+  border-radius:40px;
+  padding:60px 20px;
+  overflow:auto;
+}
+
+.home-bar{
+  position:absolute;
+  bottom:8px;
+  left:50%;
+  transform:translateX(-50%);
+  width:120px;
+  height:5px;
+  background:#ccc;
+  border-radius:10px;
+  z-index:20;
+}
+
+.control-center{
+  position:absolute;
+  top:-100%;
+  right:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(20px);
+  color:white;
+  padding:80px 20px;
+  transition:0.4s;
+}
+
+.control-box{
+  background:rgba(255,255,255,0.2);
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:15px;
+}
+</style>
 </head>
 <body>
 
-    <div class="relative mx-auto border-gray-800 bg-gray-900 border-[14px] rounded-[3rem] h-[700px] w-[340px] shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden ring-4 ring-gray-700">
-        
-        <div class="h-[40px] w-[3px] bg-gray-800 absolute -right-[17px] top-32 rounded-r-lg"></div>
-        <div class="h-[60px] w-[3px] bg-gray-800 absolute -left-[17px] top-32 rounded-l-lg"></div>
-        <div class="h-[60px] w-[3px] bg-gray-800 absolute -left-[17px] top-52 rounded-l-lg"></div>
+<div class="iphone">
+<div class="screen" id="screen">
 
-        <div class="h-full w-full bg-slate-50 overflow-y-auto custom-scrollbar relative flex flex-col">
-            
-            <div class="sticky top-0 z-50 h-9 w-full flex justify-center pt-3 bg-slate-50">
-                <div class="bg-black w-28 h-6 rounded-full flex items-center justify-between px-4">
-                    <div class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
-                    <div class="w-4 h-1 bg-gray-800 rounded-full"></div>
-                </div>
-            </div>
+<div class="status-bar">
+<span id="statusTime"></span>
+<span>🔋100%</span>
+</div>
 
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-8">
-                    <div>
-                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Welcome back,</p>
-                        <h5 class="font-extrabold text-xl text-slate-800">Aditya Dev</h5>
-                    </div>
-                    <div class="bg-white p-2 rounded-full shadow-sm border border-gray-100">
-                        <i data-lucide="bell" class="w-5 h-5 text-slate-600"></i>
-                    </div>
-                </div>
+<div class="lock-screen" id="lockScreen">
+<h1 id="time"></h1>
+<p id="date"></p>
+<p style="margin-top:20px;">Swipe Up</p>
+</div>
 
-                <div class="space-y-6">
-                    <div class="h-40 rounded-[2rem] bg-gradient-to-br from-blue-600 to-indigo-700 p-6 text-white shadow-lg shadow-blue-500/30 relative overflow-hidden">
-                        <div class="relative z-10 flex flex-col justify-between h-full">
-                            <p class="text-sm opacity-80 font-medium">Total Balance</p>
-                            <p class="text-3xl font-bold tracking-tight">$4,250.00</p>
-                            <div class="flex -space-x-2">
-                                <div class="w-8 h-8 rounded-full bg-white/20 border border-white/30"></div>
-                                <div class="w-8 h-8 rounded-full bg-white/10 border border-white/30"></div>
-                            </div>
-                        </div>
-                        <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-                    </div>
+<div class="home-screen" id="homeScreen">
+<div class="app-icon" onclick="openApp('Phone')">📞<br>Phone</div>
+<div class="app-icon" onclick="openApp('Safari')">🌐<br>Safari</div>
+<div class="app-icon" onclick="openApp('Music')">🎵<br>Music</div>
+<div class="app-icon" onclick="openApp('Settings')">⚙️<br>Settings</div>
 
-                    <div class="grid grid-cols-4 gap-4">
-                        <div class="flex flex-col items-center gap-2">
-                            <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 border border-blue-100"><i data-lucide="send" class="w-5 h-5"></i></div>
-                            <span class="text-[10px] font-bold text-gray-500">Send</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-2">
-                            <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 border border-purple-100"><i data-lucide="plus" class="w-5 h-5"></i></div>
-                            <span class="text-[10px] font-bold text-gray-500">Topup</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-2">
-                            <div class="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 border border-orange-100"><i data-lucide="pie-chart" class="w-5 h-5"></i></div>
-                            <span class="text-[10px] font-bold text-gray-500">Stats</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-2">
-                            <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-600 border border-gray-100"><i data-lucide="more-horizontal" class="w-5 h-5"></i></div>
-                            <span class="text-[10px] font-bold text-gray-500">More</span>
-                        </div>
-                    </div>
+<div class="dock">
+<div class="app-icon" onclick="openApp('Phone')">📞</div>
+<div class="app-icon" onclick="openApp('Safari')">🌐</div>
+<div class="app-icon" onclick="openApp('Music')">🎵</div>
+</div>
+</div>
 
-                    <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm">
-                        <div class="flex justify-between items-center mb-4">
-                            <p class="text-sm font-bold text-slate-800">Recent Activity</p>
-                            <span class="text-[10px] text-blue-600 font-bold">See All</span>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center"><i data-lucide="coffee" class="w-5 h-5 text-brown-600"></i></div>
-                                    <div>
-                                        <p class="text-xs font-bold text-slate-800">Coffee Shop</p>
-                                        <p class="text-[10px] text-gray-400">Today, 09:41 AM</p>
-                                    </div>
-                                </div>
-                                <span class="text-xs font-bold text-red-500">-$4.50</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="app-screen" id="appScreen">
+<h2 id="appTitle"></h2>
+<div id="appContent"></div>
+</div>
 
-            <div class="mt-auto pb-2 flex justify-center">
-                <div class="w-32 h-1.5 bg-gray-300 rounded-full"></div>
-            </div>
-        </div>
-    </div>
+<div class="control-center" id="controlCenter">
+<div class="control-box">✈️ Airplane Mode</div>
+<div class="control-box">📶 WiFi</div>
+<div class="control-box">🔵 Bluetooth</div>
+</div>
 
-    <script>
-        lucide.createIcons();
-    </script>
+<div class="home-bar" id="homeBar"></div>
+
+</div>
+</div>
+
+<script>
+const lockScreen = document.getElementById("lockScreen");
+const homeScreen = document.getElementById("homeScreen");
+const appScreen = document.getElementById("appScreen");
+const appTitle = document.getElementById("appTitle");
+const appContent = document.getElementById("appContent");
+const controlCenter = document.getElementById("controlCenter");
+
+function updateTime(){
+  const now=new Date();
+  document.getElementById("time").innerText=
+  now.getHours().toString().padStart(2,'0')+":"+
+  now.getMinutes().toString().padStart(2,'0');
+
+  document.getElementById("statusTime").innerText=
+  now.getHours()+":"+now.getMinutes().toString().padStart(2,'0');
+
+  document.getElementById("date").innerText=
+  now.toDateString();
+}
+setInterval(updateTime,1000);
+updateTime();
+
+let startY=0;
+lockScreen.addEventListener("touchstart",e=>startY=e.touches[0].clientY);
+lockScreen.addEventListener("touchend",e=>{
+  if(startY - e.changedTouches[0].clientY > 50){
+    lockScreen.style.top="-100%";
+    homeScreen.style.display="flex";
+  }
+});
+
+function openApp(name){
+  appTitle.innerText=name;
+  appScreen.style.top="0";
+  if(name==="Safari"){
+    appContent.innerHTML="<iframe src='https://example.com' width='100%' height='500'></iframe>";
+  }else{
+    appContent.innerHTML="<p>Welcome to "+name+"</p>";
+  }
+}
+
+document.getElementById("homeBar").onclick=()=>{
+  appScreen.style.top="100%";
+};
+
+document.getElementById("screen").addEventListener("dblclick",()=>{
+  controlCenter.style.top="0";
+});
+
+controlCenter.onclick=()=>{
+  controlCenter.style.top="-100%";
+};
+</script>
+
 </body>
 </html>
