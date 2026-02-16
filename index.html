@@ -1,1 +1,118 @@
-<h1>Gagal</h1>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perangkat Komputer</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-top: 20px;
+    animation: fadeDown 1.5s ease-in-out;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 30px;
+}
+
+.card {
+    background: white;
+    color: black;
+    width: 200px;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    transition: transform 0.4s, box-shadow 0.4s;
+    animation: fadeUp 1s ease forwards;
+    opacity: 0;
+}
+
+.card:hover {
+    transform: scale(1.1) rotate(3deg);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+}
+
+@keyframes fadeUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: orange;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: red;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<h1>PERANGKAT KOMPUTER</h1>
+
+<div class="container" id="deviceContainer">
+    <!-- Hardware -->
+    <div class="card">🖥️ Monitor</div>
+    <div class="card">⌨️ Keyboard</div>
+    <div class="card">🖱️ Mouse</div>
+    <div class="card">🧠 Processor (CPU)</div>
+    <div class="card">💾 Harddisk / SSD</div>
+    <div class="card">🧩 RAM</div>
+
+    <!-- Software -->
+    <div class="card">🪟 Sistem Operasi</div>
+    <div class="card">📝 Aplikasi</div>
+    <div class="card">🛡️ Antivirus</div>
+
+    <!-- Brainware -->
+    <div class="card">👨‍💻 Programmer</div>
+    <div class="card">👩‍💻 User</div>
+    <div class="card">🛠️ Teknisi</div>
+</div>
+
+<button onclick="tampilkanPesan()">Klik Untuk Animasi</button>
+
+<script>
+function tampilkanPesan() {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.background = "#00ffcc";
+            card.style.transform = "scale(1.2)";
+            setTimeout(() => {
+                card.style.transform = "scale(1)";
+                card.style.background = "white";
+            }, 500);
+        }, index * 200);
+    });
+}
+</script>
+
+</body>
+</html>
