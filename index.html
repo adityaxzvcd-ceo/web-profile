@@ -1,118 +1,132 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perangkat Komputer</title>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    margin-top: 20px;
-    animation: fadeDown 1.5s ease-in-out;
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 30px;
-}
-
-.card {
-    background: white;
-    color: black;
-    width: 200px;
-    margin: 15px;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-    transition: transform 0.4s, box-shadow 0.4s;
-    animation: fadeUp 1s ease forwards;
-    opacity: 0;
-}
-
-.card:hover {
-    transform: scale(1.1) rotate(3deg);
-    box-shadow: 0 15px 25px rgba(0,0,0,0.5);
-}
-
-@keyframes fadeUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes fadeDown {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    background: orange;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: red;
-    color: white;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator IP Address</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, button { margin: 5px; padding: 8px; }
+        .result { margin-top: 20px; padding: 10px; background-color: #f0f0f0; border-radius: 5px; }
+    </style>
 </head>
-
 <body>
+    <h1>Kalkulator IP Address</h1>
+    <p>Masukkan alamat IP dan subnet mask (dalam format CIDR, misalnya /24, atau dotted decimal seperti 255.255.255.0).</p>
+    
+    <label for="ip">Alamat IP:</label>
+    <input type="text" id="ip" placeholder="192.168.1.1" required>
+    
+    <label for="mask">Subnet Mask (CIDR atau dotted):</label>
+    <input type="text" id="mask" placeholder="/24 atau 255.255.255.0" required>
+    
+    <button onclick="calculateIP()">Hitung</button>
+    
+    <div id="result" class="result" style="display: none;">
+        <h3>Hasil:</h3>
+        <p><strong>Alamat Jaringan:</strong> <span id="network"></span></p>
+        <p><strong>Alamat Broadcast:</strong> <span id="broadcast"></span></p>
+        <p><strong>Range Host:</strong> <span id="hostRange"></span></p>
+        <p><strong>Jumlah Host:</strong> <span id="hostCount"></span></p>
+        <p><strong>Kelas IP:</strong> <span id="ipClass"></span></p>
+    </div>
 
-<h1>PERANGKAT KOMPUTER</h1>
-
-<div class="container" id="deviceContainer">
-    <!-- Hardware -->
-    <div class="card">🖥️ Monitor</div>
-    <div class="card">⌨️ Keyboard</div>
-    <div class="card">🖱️ Mouse</div>
-    <div class="card">🧠 Processor (CPU)</div>
-    <div class="card">💾 Harddisk / SSD</div>
-    <div class="card">🧩 RAM</div>
-
-    <!-- Software -->
-    <div class="card">🪟 Sistem Operasi</div>
-    <div class="card">📝 Aplikasi</div>
-    <div class="card">🛡️ Antivirus</div>
-
-    <!-- Brainware -->
-    <div class="card">👨‍💻 Programmer</div>
-    <div class="card">👩‍💻 User</div>
-    <div class="card">🛠️ Teknisi</div>
-</div>
-
-<button onclick="tampilkanPesan()">Klik Untuk Animasi</button>
-
-<script>
-function tampilkanPesan() {
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card, index) => {
-        setTimeout(() => {
-            card.style.background = "#00ffcc";
-            card.style.transform = "scale(1.2)";
-            setTimeout(() => {
-                card.style.transform = "scale(1)";
-                card.style.background = "white";
-            }, 500);
-        }, index * 200);
-    });
-}
-</script>
-
+    <script>
+        function calculateIP() {
+            const ipInput = document.getElementById('ip').value.trim();
+            const maskInput = document.getElementById('mask').value.trim();
+            
+            // Validasi input IP
+            const ipRegex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+            const ipMatch = ipInput.match(ipRegex);
+            if (!ipMatch) {
+                alert('Format IP tidak valid. Gunakan format xxx.xxx.xxx.xxx');
+                return;
+            }
+            const ipParts = ipMatch.slice(1).map(Number);
+            if (ipParts.some(part => part < 0 || part > 255)) {
+                alert('IP address harus antara 0-255 per oktet.');
+                return;
+            }
+            
+            // Konversi IP ke 32-bit integer
+            const ipInt = (ipParts[0] << 24) | (ipParts[1] << 16) | (ipParts[2] << 8) | ipParts[3];
+            
+            // Validasi dan konversi mask
+            let cidr;
+            if (maskInput.startsWith('/')) {
+                cidr = parseInt(maskInput.substring(1));
+                if (isNaN(cidr) || cidr < 0 || cidr > 32) {
+                    alert('CIDR tidak valid. Harus antara 0-32.');
+                    return;
+                }
+            } else {
+                const maskMatch = maskInput.match(ipRegex);
+                if (!maskMatch) {
+                    alert('Format subnet mask tidak valid.');
+                    return;
+                }
+                const maskParts = maskMatch.slice(1).map(Number);
+                if (maskParts.some(part => part < 0 || part > 255)) {
+                    alert('Subnet mask harus antara 0-255 per oktet.');
+                    return;
+                }
+                // Hitung CIDR dari mask
+                const maskInt = (maskParts[0] << 24) | (maskParts[1] << 16) | (maskParts[2] << 8) | maskParts[3];
+                cidr = 0;
+                for (let i = 31; i >= 0; i--) {
+                    if ((maskInt & (1 << i)) !== 0) cidr++;
+                    else break;
+                }
+                // Validasi mask kontinyu
+                if ((maskInt & ((1 << (32 - cidr)) - 1)) !== 0) {
+                    alert('Subnet mask tidak valid (harus kontinyu).');
+                    return;
+                }
+            }
+            
+            // Hitung network address
+            const maskInt = (0xFFFFFFFF << (32 - cidr)) & 0xFFFFFFFF;
+            const networkInt = ipInt & maskInt;
+            
+            // Hitung broadcast address
+            const broadcastInt = networkInt | (~maskInt & 0xFFFFFFFF);
+            
+            // Konversi kembali ke format IP
+            function intToIP(int) {
+                return [
+                    (int >>> 24) & 255,
+                    (int >>> 16) & 255,
+                    (int >>> 8) & 255,
+                    int & 255
+                ].join('.');
+            }
+            
+            // Hitung range host
+            const firstHost = networkInt + 1;
+            const lastHost = broadcastInt - 1;
+            const hostRange = cidr === 32 ? 'Tidak ada host' : `${intToIP(firstHost)} - ${intToIP(lastHost)}`;
+            
+            // Hitung jumlah host
+            const hostCount = cidr === 32 ? 1 : (1 << (32 - cidr)) - 2;
+            
+            // Tentukan kelas IP
+            let ipClass;
+            if (ipParts[0] >= 1 && ipParts[0] <= 126) ipClass = 'A';
+            else if (ipParts[0] >= 128 && ipParts[0] <= 191) ipClass = 'B';
+            else if (ipParts[0] >= 192 && ipParts[0] <= 223) ipClass = 'C';
+            else if (ipParts[0] >= 224 && ipParts[0] <= 239) ipClass = 'D (Multicast)';
+            else if (ipParts[0] >= 240 && ipParts[0] <= 255) ipClass = 'E (Reserved)';
+            else ipClass = 'Tidak valid';
+            
+            // Tampilkan hasil
+            document.getElementById('network').textContent = intToIP(networkInt);
+            document.getElementById('broadcast').textContent = intToIP(broadcastInt);
+            document.getElementById('hostRange').textContent = hostRange;
+            document.getElementById('hostCount').textContent = hostCount;
+            document.getElementById('ipClass').textContent = ipClass;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
