@@ -1,9 +1,217 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html>
 <head>
   <title>Web Pertama</title>
 </head>
 <body>
   <h1>Hello dari Termux 🔥</h1>
+=======
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP Calculator - TKJ 1 ONE</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    padding: 30px;
+    width: 500px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    animation: fadeIn 1s ease-in-out;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 800;
+    color: #00f5ff;
+}
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #00f5ff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00c4cc;
+    transform: scale(1.05);
+}
+
+.result, .rumus, .hafalan {
+    margin-top: 15px;
+    background: rgba(0,0,0,0.4);
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+h3 {
+    margin-bottom: 10px;
+    color: #00f5ff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+table, th, td {
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+th, td {
+    padding: 5px;
+    text-align: center;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>IP Calculator</h1>
+    <div class="subtitle">🔥 TKJ 1 ONE 🔥</div>
+
+    <input type="text" id="ipInput" placeholder="Contoh: 192.168.1.10/24">
+    <button onclick="calculateIP()">Hitung Sekarang</button>
+
+    <div class="result" id="result"></div>
+
+    <div class="rumus">
+        <h3>📘 Rumus Dasar</h3>
+        1️⃣ Total Host = 2^(32 - CIDR) - 2 <br>
+        2️⃣ Network = IP AND Subnet Mask <br>
+        3️⃣ Broadcast = Network + Total Host + 1 <br>
+        4️⃣ Range Host = Network + 1 sampai Broadcast - 1
+    </div>
+
+    <div class="hafalan">
+        <h3>📚 Hafalan CIDR Cepat</h3>
+        <table>
+            <tr><th>CIDR</th><th>Host</th></tr>
+            <tr><td>/24</td><td>254</td></tr>
+            <tr><td>/25</td><td>126</td></tr>
+            <tr><td>/26</td><td>62</td></tr>
+            <tr><td>/27</td><td>30</td></tr>
+            <tr><td>/28</td><td>14</td></tr>
+            <tr><td>/29</td><td>6</td></tr>
+            <tr><td>/30</td><td>2</td></tr>
+        </table>
+    </div>
+
+    <div class="footer">© 2026 TKJ 1 ONE | Networking Tools</div>
+</div>
+
+<script>
+function ipToInt(ip) {
+    return ip.split('.').reduce((acc, oct) => (acc << 8) + parseInt(oct), 0) >>> 0;
+}
+
+function intToIp(int) {
+    return [(int >>> 24), (int >> 16 & 255), (int >> 8 & 255), (int & 255)].join('.');
+}
+
+function getClass(firstOctet) {
+    if (firstOctet >= 1 && firstOctet <= 126) return "Class A";
+    if (firstOctet >= 128 && firstOctet <= 191) return "Class B";
+    if (firstOctet >= 192 && firstOctet <= 223) return "Class C";
+    if (firstOctet >= 224 && firstOctet <= 239) return "Class D (Multicast)";
+    if (firstOctet >= 240) return "Class E (Experimental)";
+    return "Unknown";
+}
+
+function calculateIP() {
+    const input = document.getElementById("ipInput").value;
+    const resultDiv = document.getElementById("result");
+
+    try {
+        const [ip, cidr] = input.split('/');
+        if (!ip || !cidr) throw "Format salah";
+
+        const prefix = parseInt(cidr);
+        const ipInt = ipToInt(ip);
+        const mask = prefix === 0 ? 0 : (~0 << (32 - prefix)) >>> 0;
+        const network = ipInt & mask;
+        const broadcast = network | (~mask >>> 0);
+        const totalHosts = prefix >= 31 ? 1 : Math.pow(2, 32 - prefix) - 2;
+        const firstHost = prefix >= 31 ? network : network + 1;
+        const lastHost = prefix >= 31 ? broadcast : broadcast - 1;
+
+        const firstOctet = parseInt(ip.split('.')[0]);
+
+        resultDiv.innerHTML = `
+        <b>IP Class:</b> ${getClass(firstOctet)} <br>
+        <b>Subnet Mask:</b> ${intToIp(mask)} <br>
+        <b>Network Address:</b> ${intToIp(network)} <br>
+        <b>Broadcast Address:</b> ${intToIp(broadcast)} <br>
+        <b>Host Range:</b> ${intToIp(firstHost)} - ${intToIp(lastHost)} <br>
+        <b>Total Hosts:</b> ${totalHosts} <br><br>
+
+        <b>📖 Langkah Hitung:</b><br>
+        32 - ${prefix} = ${32-prefix}<br>
+        2^${32-prefix} - 2 = ${totalHosts}
+        `;
+    } catch (err) {
+        resultDiv.innerHTML = "⚠️ Input tidak valid! Gunakan format IP/CIDR (contoh 192.168.1.1/24)";
+    }
+}
+</script>
+
+>>>>>>> db76ca18773c27de19c9fe0955c4fd97570d3724
 </body>
 </html>
