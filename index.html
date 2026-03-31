@@ -3,143 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Subnet Master - Blue Edition</title>
+    <title>IP Subnet Master - White & Dark Blue</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
         
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc; /* Putih Bersih */
-            color: #1e293b;
+            background-color: #f1f5f9; /* Latar abu-abu sangat muda */
+            color: #0f172a; 
+        }
+        
+        .glass-card { 
+            background: #ffffff; 
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
         }
 
-        .dark-blue-card {
-            background: #0f172a; /* Biru Gelap Deep */
+        .dark-card {
+            background: #0f172a; /* Biru Gelap */
             color: #f8fafc;
         }
 
-        .white-card {
+        .input-focus {
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+        }
+
+        .input-focus:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
         }
 
-        .blue-gradient-btn {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-        }
-
-        .stat-box {
+        .formula-box {
+            background: #f8fafc;
             border-left: 4px solid #3b82f6;
-            background: #f1f5f9;
-        }
-
-        /* Animasi Progress Bar */
-        #hostBar {
-            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
-<body class="py-12 px-4">
+<body class="min-h-screen py-10 px-4 flex flex-col items-center">
 
-    <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
-            <div>
-                <h1 class="text-3xl font-extrabold text-slate-900 flex items-center gap-3">
-                    <span class="p-2 bg-blue-600 rounded-lg text-white">
-                        <i data-lucide="network" size="28"></i>
-                    </span>
-                    IP Subnet Master
-                </h1>
-                <p class="text-slate-500 mt-1 ml-14">Kalkulator jaringan presisi tinggi</p>
-            </div>
-            <div class="text-right hidden md:block">
-                <span class="text-[10px] font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-full">Professional Grade</span>
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-extrabold text-slate-900 mb-2">
+            IP Subnet <span class="text-blue-600">Master</span>
+        </h1>
+        <p class="text-slate-500 text-sm">Hitung Network, Host, dan Broadcast secara presisi</p>
+    </div>
+
+    <div class="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div class="glass-card rounded-3xl p-8 h-fit">
+            <h2 class="text-xl font-semibold mb-6 flex items-center gap-2 text-slate-800">
+                <i data-lucide="settings-2" class="text-blue-600 w-5 h-5"></i> Konfigurasi IP
+            </h2>
+            
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-400">Alamat IP (IPv4)</label>
+                    <input type="text" id="ipInput" placeholder="Contoh: 192.168.1.1" 
+                        class="input-focus w-full rounded-xl p-4 outline-none text-slate-800 placeholder:text-slate-300">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-400">Prefix (CIDR)</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">/</span>
+                        <input type="number" id="prefixInput" placeholder="24" min="0" max="32"
+                            class="input-focus w-full rounded-xl p-4 pl-8 outline-none text-slate-800 placeholder:text-slate-300">
+                    </div>
+                </div>
+
+                <button onclick="calculate()" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    <i data-lucide="calculator" class="w-5 h-5"></i> Hitung Sekarang
+                </button>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div class="lg:col-span-4">
-                <div class="dark-blue-card rounded-[2rem] p-8 shadow-2xl sticky top-8">
-                    <h2 class="text-xl font-bold mb-8 flex items-center gap-2 text-blue-400">
-                        <i data-lucide="settings-2"></i> Konfigurasi
-                    </h2>
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">Alamat IP (IPv4)</label>
-                            <input type="text" id="ipInput" placeholder="192.168.1.1" 
-                                class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 outline-none focus:border-blue-500 transition-all font-mono text-white placeholder:text-slate-500 text-lg">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">Prefix (CIDR)</label>
-                            <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-500 font-bold text-xl">/</span>
-                                <input type="number" id="prefixInput" placeholder="24" min="0" max="32"
-                                    class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 pl-10 outline-none focus:border-blue-500 transition-all font-mono text-white text-lg">
-                            </div>
-                        </div>
-
-                        <button onclick="calculate()" class="w-full blue-gradient-btn hover:opacity-90 text-white font-black py-5 rounded-2xl shadow-xl shadow-blue-900/40 transition-all active:scale-95 uppercase tracking-widest text-sm flex items-center justify-center gap-3">
-                            <i data-lucide="play-circle"></i> Hitung Jaringan
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="resultPanel" class="lg:col-span-8 space-y-6 hidden animate-in fade-in slide-in-from-right-4 duration-500">
+        <div id="resultsWrapper" class="space-y-6 hidden">
+            
+            <div class="dark-card rounded-3xl p-8 shadow-xl">
+                <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
+                    <i data-lucide="clipboard-check" class="text-blue-400 w-5 h-5"></i> Hasil Analisis
+                </h2>
                 
-                <div class="white-card rounded-[2rem] p-8">
-                    <h2 class="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
-                        Hasil Perhitungan
-                        <span class="h-1 w-20 bg-blue-600 rounded-full"></span>
-                    </h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="md:col-span-2 bg-blue-50 border border-blue-100 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                            <div>
-                                <p class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Jumlah IP Yang Bisa Digunakan</p>
-                                <p id="resUsable" class="text-4xl font-black text-slate-900"></p>
-                            </div>
-                            <div class="text-right">
-                                <p id="resTotalLabel" class="text-sm font-bold text-blue-400"></p>
-                                <div class="w-48 bg-blue-200 h-2 rounded-full mt-2 overflow-hidden">
-                                    <div id="hostBar" class="bg-blue-600 h-full w-0"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="stat-box p-4 rounded-r-xl">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase">Network Address</span>
-                            <p id="resNetwork" class="text-lg font-mono font-bold text-slate-800"></p>
-                        </div>
-                        <div class="stat-box p-4 rounded-r-xl">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase">Subnet Mask</span>
-                            <p id="resMask" class="text-lg font-mono font-bold text-slate-800"></p>
-                        </div>
-                        <div class="stat-box p-4 rounded-r-xl border-l-rose-500">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase">Broadcast Address</span>
-                            <p id="resBroadcast" class="text-lg font-mono font-bold text-slate-800"></p>
-                        </div>
-                        <div class="stat-box p-4 rounded-r-xl border-l-emerald-500">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase">Rentang IP Valid</span>
-                            <p id="resRange" class="text-xs font-mono font-bold text-slate-800 mt-1"></p>
-                        </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center py-3 border-b border-slate-700/50">
+                        <span class="text-slate-400 text-sm">Network Address</span>
+                        <span id="resNetwork" class="font-mono text-blue-400 font-bold"></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-slate-700/50">
+                        <span class="text-slate-400 text-sm">Subnet Mask</span>
+                        <span id="resMask" class="font-mono text-slate-200"></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-slate-700/50">
+                        <span class="text-slate-400 text-sm">Broadcast Address</span>
+                        <span id="resBroadcast" class="font-mono text-rose-400"></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-slate-700/50">
+                        <span class="text-slate-400 text-sm">IP Bisa Digunakan</span>
+                        <span id="resUsable" class="font-mono text-emerald-400 font-bold text-lg"></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3">
+                        <span class="text-slate-400 text-sm">Total Range Host</span>
+                        <span id="resRange" class="font-mono text-blue-200 text-xs"></span>
                     </div>
                 </div>
+            </div>
 
-                <div class="white-card rounded-[2rem] p-8 border-t-4 border-t-blue-600">
-                    <h3 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                        <i data-lucide="help-circle" class="text-blue-600"></i> Analisis Langkah
-                    </h3>
-                    <div id="stepDetail" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                        </div>
+            <div class="glass-card rounded-3xl p-8 border-l-4 border-l-blue-600">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="info" class="text-blue-600 w-5 h-5"></i> Rumus Perhitungan
+                </h2>
+                <div class="text-sm text-slate-500 space-y-4">
+                    <div class="formula-box p-3 rounded-lg">
+                        <p class="font-bold text-slate-700">Jumlah IP Terpakai:</p>
+                        <code class="text-blue-600 font-bold">2^(32 - Prefix) - 2</code>
+                    </div>
+                    <p class="italic text-[11px]">Hasil di atas didapat dari pengurangan total alamat dengan alamat Network & Broadcast.</p>
                 </div>
-
             </div>
         </div>
+
     </div>
 
     <script>
@@ -157,8 +145,9 @@
             const ipStr = document.getElementById('ipInput').value;
             const prefix = parseInt(document.getElementById('prefixInput').value);
 
-            if (!/^(\d{1,3}\.){3}\d{1,3}$/.test(ipStr) || isNaN(prefix) || prefix < 0 || prefix > 32) {
-                alert("Format IP atau Prefix salah!");
+            const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (!ipPattern.test(ipStr) || isNaN(prefix) || prefix < 0 || prefix > 32) {
+                alert("IP atau Prefix nggak valid, bro!");
                 return;
             }
 
@@ -166,40 +155,22 @@
             const maskInt = (prefix === 0 ? 0 : (0xFFFFFFFF << (32 - prefix))) >>> 0;
             const networkInt = (ipInt & maskInt) >>> 0;
             const broadcastInt = (networkInt | (~maskInt)) >>> 0;
-            const totalAddr = Math.pow(2, (32 - prefix));
-            const usable = prefix <= 30 ? totalAddr - 2 : (prefix === 31 ? 2 : 1);
+            
+            const totalHosts = Math.pow(2, (32 - prefix));
+            const usableHosts = prefix <= 30 ? totalHosts - 2 : (prefix === 31 ? 2 : 1);
 
-            // Update UI Ringkasan
             document.getElementById('resNetwork').innerText = intToIp(networkInt);
             document.getElementById('resMask').innerText = intToIp(maskInt);
             document.getElementById('resBroadcast').innerText = intToIp(broadcastInt);
-            document.getElementById('resUsable').innerText = `${usable.toLocaleString()} IP`;
-            document.getElementById('resTotalLabel').innerText = `${usable} / ${totalAddr} Total`;
-            document.getElementById('resRange').innerText = `${intToIp(networkInt + 1)} - ${intToIp(broadcastInt - 1)}`;
+            document.getElementById('resUsable').innerText = `${usableHosts.toLocaleString()} IP`;
             
-            // Animasi Host Bar
-            document.getElementById('hostBar').style.width = '0%';
-            setTimeout(() => {
-                document.getElementById('hostBar').style.width = (usable/totalAddr * 100) + '%';
-            }, 100);
+            if (prefix <= 30) {
+                document.getElementById('resRange').innerText = `${intToIp(networkInt + 1)} - ${intToIp(broadcastInt - 1)}`;
+            } else {
+                document.getElementById('resRange').innerText = "N/A";
+            }
 
-            // Update Detail Rumus
-            const steps = `
-                <div class="space-y-2">
-                    <p class="font-bold text-blue-600">1. Subnet Mask</p>
-                    <p class="text-slate-500">Menerjemahkan /${prefix} menjadi biner dan desimal:</p>
-                    <code class="block bg-slate-100 p-2 rounded text-slate-800 font-bold">${intToIp(maskInt)}</code>
-                </div>
-                <div class="space-y-2">
-                    <p class="font-bold text-blue-600">2. Kapasitas Host</p>
-                    <p class="text-slate-500">Rumus: 2^(32 - ${prefix}) - 2</p>
-                    <p class="text-slate-800 font-bold">2^${32-prefix} = ${totalAddr} total alamat.</p>
-                </div>
-            `;
-            document.getElementById('stepDetail').innerHTML = steps;
-
-            document.getElementById('resultPanel').classList.remove('hidden');
-            window.scrollTo({ top: document.getElementById('resultPanel').offsetTop - 20, behavior: 'smooth' });
+            document.getElementById('resultsWrapper').classList.remove('hidden');
         }
     </script>
 </body>
