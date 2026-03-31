@@ -2,49 +2,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IP Calculator Clean Pro</title>
+<title>IP Calculator Pro</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; color: #e2e8f0; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');body { font-family: 'Inter', sans-serif; background: #0b1220; color: #e5e7eb; }
 
-.glass-container { background: #1e293b; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.card { background: #111827; border: 1px solid #1f2937; border-radius: 16px; }
 
-.result-card { background: #0f172a; border-radius: 16px; border: 1px solid #334155; }
+.input { background: #020617; border: 1px solid #1f2937; color: #e5e7eb; }
 
-.input { background: #020617; border: 1px solid #334155; color: #e2e8f0; } </style>
+.label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; } </style>
 
 </head>
-<body class="py-10 px-4"><div class="max-w-5xl mx-auto"><div class="text-center mb-10">
-<h1 class="text-4xl font-bold">IP Subnet Calculator</h1>
-<p class="text-slate-400 text-sm">Simple • Clean • Fast</p>
-</div><div class="grid grid-cols-1 lg:grid-cols-12 gap-8"><div class="lg:col-span-4">
-<div class="glass-container rounded-2xl p-6 sticky top-6"><h2 class="font-bold mb-4 flex gap-2 items-center">
-<i data-lucide="cpu"></i> Input
-</h2><div class="space-y-4">
-<input id="ipInput" placeholder="192.168.1.1" class="input w-full p-3 rounded-xl"><div class="relative">
-<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">/</span>
-<input id="prefixInput" type="number" placeholder="24" class="input w-full p-3 pl-6 rounded-xl">
-</div><button onclick="calculate()" class="w-full bg-slate-600 hover:bg-slate-500 p-3 rounded-xl font-bold">Hitung</button>
-
-</div></div>
-</div><div id="resultPanel" class="lg:col-span-8 space-y-4 hidden"><div class="glass-container rounded-2xl p-6"><h2 class="text-lg font-bold mb-4">Hasil</h2><div class="grid grid-cols-2 gap-4">
-<div class="result-card p-4">
-<p class="text-xs text-slate-400">Network</p>
-<p id="resNetwork" class="font-mono"></p>
-</div><div class="result-card p-4">
-<p class="text-xs text-slate-400">Mask</p>
-<p id="resMask" class="font-mono"></p>
-</div><div class="result-card p-4">
-<p class="text-xs text-slate-400">Broadcast</p>
-<p id="resBroadcast" class="font-mono"></p>
-</div><div class="result-card p-4">
-<p class="text-xs text-slate-400">Usable</p>
-<p id="resUsable" class="font-mono"></p>
+<body class="p-6"><div class="max-w-6xl mx-auto space-y-6"><!-- HEADER --><div class="flex justify-between items-center">
+<h1 class="text-2xl font-semibold">IP Subnet Calculator</h1>
+<span class="text-xs text-slate-500">Pro Edition</span>
+</div><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><!-- INPUT PANEL --><div class="card p-6 space-y-5"><div>
+<p class="label mb-2">Alamat IP</p>
+<input id="ipInput" class="input w-full p-3 rounded-lg" placeholder="192.168.1.1">
+</div><div>
+<p class="label mb-2">Prefix (CIDR)</p>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">/</span>
+<input id="prefixInput" type="number" class="input w-full p-3 pl-6 rounded-lg" placeholder="24">
 </div>
-</div><p class="mt-4 text-sm">Range: <span id="range" class="font-mono"></span></p>
-<p id="note" class="text-xs text-slate-400 mt-1"></p></div></div></div>
-</div><script>
+</div><button onclick="calculate()" class="w-full bg-indigo-600 hover:bg-indigo-500 p-3 rounded-lg font-semibold">
+Hitung
+</button></div><!-- RESULT PANEL --><div class="lg:col-span-2 space-y-6"><div id="result" class="card p-6 hidden"><div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm"><div>
+<p class="label">Network</p>
+<p id="network" class="font-mono"></p>
+</div><div>
+<p class="label">Mask</p>
+<p id="mask" class="font-mono"></p>
+</div><div>
+<p class="label">Broadcast</p>
+<p id="broadcast" class="font-mono"></p>
+</div><div>
+<p class="label">Usable</p>
+<p id="usable" class="font-mono text-indigo-400"></p>
+</div></div><hr class="my-5 border-slate-800"><div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm"><div>
+<p class="label">Range IP</p>
+<p id="range" class="font-mono"></p>
+</div><div>
+<p class="label">Total Address</p>
+<p id="total" class="font-mono"></p>
+</div></div><p id="note" class="text-xs text-slate-500 mt-3"></p></div></div></div></div><script>
 lucide.createIcons();
 
 function isValidIP(ip) {
@@ -82,18 +85,19 @@ function calculate() {
     const total = Math.pow(2, (32 - prefix));
     const usable = prefix <= 30 ? total - 2 : (prefix === 31 ? 2 : 1);
 
-    document.getElementById('resNetwork').innerText = intToIp(networkInt);
-    document.getElementById('resMask').innerText = intToIp(maskInt);
-    document.getElementById('resBroadcast').innerText = intToIp(broadcastInt);
-    document.getElementById('resUsable').innerText = usable;
+    document.getElementById('network').innerText = intToIp(networkInt);
+    document.getElementById('mask').innerText = intToIp(maskInt);
+    document.getElementById('broadcast').innerText = intToIp(broadcastInt);
+    document.getElementById('usable').innerText = usable;
     document.getElementById('range').innerText = intToIp(networkInt + 1) + ' - ' + intToIp(broadcastInt - 1);
+    document.getElementById('total').innerText = total;
 
     let note = '';
     if (prefix === 31) note = 'Point-to-point network';
     if (prefix === 32) note = 'Single host only';
     document.getElementById('note').innerText = note;
 
-    document.getElementById('resultPanel').classList.remove('hidden');
+    document.getElementById('result').classList.remove('hidden');
 }
 </script></body>
 </html>
