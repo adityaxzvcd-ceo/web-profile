@@ -121,6 +121,14 @@
                             </div>
                             <p id="resUsable" class="text-2xl font-mono font-black text-indigo-600"></p>
                         </div>
+
+                        <div class="result-card p-5 md:col-span-2 border-l-4 border-l-amber-400">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="p-2 bg-amber-100 rounded-lg text-amber-600"><i data-lucide="range-selection" size="18"></i></div>
+                                <span class="text-xs font-bold text-slate-400 uppercase">Rentang Host (IP Range)</span>
+                            </div>
+                            <p id="resRangeDisplay" class="text-lg md:text-xl font-mono font-bold text-slate-700 tracking-tight"></p>
+                        </div>
                     </div>
 
                     <div class="mt-8 p-6 bg-slate-50 rounded-2xl">
@@ -141,7 +149,7 @@
                     </h3>
                     
                     <div id="stepDetail" class="space-y-4">
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,19 +182,28 @@
             const totalAddr = Math.pow(2, (32 - prefix));
             const usable = prefix <= 30 ? totalAddr - 2 : (prefix === 31 ? 2 : 1);
 
-            // Update Tampilan Utama
+            // Perhitungan Range
+            let rangeText = "";
+            if (prefix <= 30) {
+                rangeText = `${intToIp(networkInt + 1)} — ${intToIp(broadcastInt - 1)}`;
+            } else if (prefix === 31) {
+                rangeText = `${intToIp(networkInt)} — ${intToIp(broadcastInt)}`;
+            } else {
+                rangeText = intToIp(networkInt);
+            }
+
+            // Update UI
             document.getElementById('resNetwork').innerText = intToIp(networkInt);
             document.getElementById('resMask').innerText = intToIp(maskInt);
             document.getElementById('resBroadcast').innerText = intToIp(broadcastInt);
             document.getElementById('resUsable').innerText = `${usable.toLocaleString()} IP`;
+            document.getElementById('resRangeDisplay').innerText = rangeText;
             document.getElementById('resTotalLabel').innerText = `${usable} dari ${totalAddr} Alamat`;
             
-            // Animasi Bar
             setTimeout(() => {
                 document.getElementById('hostBar').style.width = (usable/totalAddr * 100) + '%';
             }, 100);
 
-            // Update Detail Rumus dengan Angka Nyata
             const steps = `
                 <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-100 text-sm">
                     <p class="font-bold text-indigo-900 mb-1">Langkah 1: Subnet Mask</p>
@@ -199,8 +216,7 @@
                 </div>
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm">
                     <p class="font-bold text-slate-900 mb-1">Langkah 3: Rentang Host</p>
-                    <p>Mulai dari: <span class="font-mono">${intToIp(networkInt + 1)}</span></p>
-                    <p>Sampai: <span class="font-mono">${intToIp(broadcastInt - 1)}</span></p>
+                    <p>IP Range ini adalah alamat di antara Network dan Broadcast yang bisa dipasang ke perangkat.</p>
                 </div>
             `;
             document.getElementById('stepDetail').innerHTML = steps;
